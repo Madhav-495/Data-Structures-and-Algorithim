@@ -1,0 +1,83 @@
+void solve()
+{
+    int n1;
+    int n2;
+    cin>>n1;
+    vector<int>nums1;
+    while(n1--){
+        int x;
+        cin>>x;
+        nums1.push_back(x);
+    }
+    vector<int>nums2;
+    cin>>n2;
+    while(n2--){
+        int x;
+        cin>>x;
+        nums2.push_back(x);
+    }
+    int i=0,j=0;
+    
+    // finding intersection of two arrays
+    while(i<nums1.size()&&j<nums2.size()){
+        if(nums1[i]==nums2[j]){
+            cout<<nums2[j]<<" ";
+            i++;j++;
+        }
+        else if(nums1[i]>nums2[j]){
+            // cout<<nums2[j]<<" ";
+            j++;
+        }
+        else {
+            // cout<<nums1[i++]<<" ";
+            i++;
+        }
+    }
+    cout<<"\n";
+    // finding union of two sorted arrays
+    i=0;j=0;
+    int last_element=-1;
+    // By Mistake I wrote The code of increment of i and j inside the if condition of last element so remember
+    while(i<nums1.size()&&j<nums2.size()){
+        // cout<<i<<" "<<j<<endl;
+        if(nums1[i]==nums2[j]){
+            if(last_element!=nums1[i]){
+                last_element=nums1[i];
+                cout<<nums1[i]<<" ";
+                
+            }
+            i++;j++;
+        }
+        else if(nums1[i]>nums2[j]){
+            if(last_element!=nums2[j]){
+                last_element=nums2[j];
+                cout<<nums2[j]<<" ";
+                
+            }
+            j++;
+        }
+        else{
+            if(last_element!=nums1[i]){
+                last_element=nums1[i];
+                cout<<nums1[i]<<" ";
+                
+            }
+            i++;
+        }
+    }
+    while(i<nums1.size()){
+        if(last_element!=nums1[i]){
+            cout<<nums1[i]<<" ";
+            last_element=nums1[i];
+        }
+        i++;
+    }
+    while(j<nums2.size()){
+        if(last_element!=nums2[j]){
+            cout<<nums2[j]<<" ";
+            last_element=nums2[j];
+        }
+        j++;
+    }
+    cout<<"\n";
+}

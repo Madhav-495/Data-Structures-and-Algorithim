@@ -1,0 +1,33 @@
+void solve(){
+    int n;
+    cin>>n;
+    int nums[n];
+    for(int i=0;i<n;i++){
+        cin>>nums[i];
+    }
+    int target;
+    cin>>target;
+    sort(nums,nums+n);
+    for(int i=0;i<n;i++){
+        for(int j=i+1;j<n;j++){
+            int new_target=target-nums[i]-nums[j];
+            int l=j+1,r=n-1;
+            while(r>l){
+                if(nums[l]+nums[r]==new_target){
+                    cout<<nums[i]<<" "<<nums[j]<<" "<<nums[l]<<" "<<nums[r]<<endl;
+                    while(l<r&&nums[l]==nums[l+1]) l++;
+                    while(l<r&&nums[r]==nums[r-1]) r--;
+                    l++;r--;
+                }
+                else if(nums[l]+nums[r]>new_target){
+                    r--;
+                }
+                else{
+                    l++;
+                }
+            }
+            while(j<n-1&&nums[j]==nums[j+1]) j++;
+        }
+        while(i<n-1&&nums[i]==nums[i+1]) i++;
+    }
+}

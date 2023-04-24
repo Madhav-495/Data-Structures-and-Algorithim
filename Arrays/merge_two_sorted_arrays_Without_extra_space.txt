@@ -1,0 +1,38 @@
+void solve(){
+    int n,m;
+    cin>>n>>m;
+    vector<int>nums1;
+    vector<int>nums2;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        nums1.push_back(x);
+    }
+    for(int j=0;j<m;j++){
+        int x;
+        cin>>x;
+        nums2.push_back(x);
+    }
+    reverse(nums2.begin(),nums2.end());
+    while(nums2.size()>0){
+        nums1.push_back(nums2.back());
+        nums2.pop_back();
+    }
+    n=nums1.size();
+    // for(auto x:nums1) cout<<x<<" ";
+    // cout<<"\n";
+    for(int gap=n/2;gap>0;gap/=2){
+        int j=0;
+        while(j+gap<n){
+            if(nums1[j]>nums1[j+gap]){
+                swap(nums1[j],nums1[j+gap]);
+            }
+            j++;
+        }
+
+    }
+    for(auto x:nums1){
+        cout<<x<<" ";
+    }
+    cout<<endl;
+}

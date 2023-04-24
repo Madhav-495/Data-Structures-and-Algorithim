@@ -1,0 +1,47 @@
+void solve()
+{
+    // cout<<"YES"<<endl;
+    int n,m;
+    cin>>n>>m;
+    // cout<<"YES"<<endl;
+    int arr[n][m];
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            cin>>arr[i][j];
+        }
+    }
+    int count=n*m;
+
+    int srow=0;
+    int scol=0;
+    int erow=n-1;
+    int ecol=m-1;
+
+    while(count>0){
+        for(int i=scol;i<=ecol&&count>0;i++){
+            cout<<arr[srow][i]<<" ";
+            count--;
+        }
+        // cout<<"\n";
+        srow++;
+        for(int i=srow;i<=erow&&count>0;i++){
+            cout<<arr[i][ecol]<<" ";
+            count--;
+        }
+        // cout<<"\n";
+        ecol--;
+        for(int i=ecol;i>=scol&&count>0;i--){
+            cout<<arr[erow][i]<<" ";
+            count--;
+        }
+        // cout<<"\n";
+        erow--;
+        for(int i=erow;i>=srow&&count>0;i--){
+            cout<<arr[i][scol]<<" ";
+            count--;
+        }
+        // cout<<"\n";
+        // cout<<count<<endl;
+        scol++;
+    }
+}

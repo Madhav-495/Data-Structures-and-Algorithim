@@ -1,0 +1,32 @@
+void solve(){
+    int n;
+    cin>>n;
+    vector<int>nums;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        nums.push_back(x);
+    }
+    int xori=0;
+    for(int i=0;i<n;i++){
+        xori=xori^nums[i];
+    }
+    for(int i=1;i<=n;i++){
+        xori=xori xor i;
+    }
+    xori=xori&~(xori-1);
+    int x=0;
+    int y=0;
+    for(int i=0;i<nums.size();i++){
+        if(xori&nums[i]){
+            x =x xor nums[i];
+        }
+        else y= y xor nums[i];
+    }
+    for(int i=1;i<=n;i++){
+        if(xori&i){
+            x=x xor i;
+        }else y=y xor i;
+    }
+    cout<<x<<" "<<y<<endl;
+}

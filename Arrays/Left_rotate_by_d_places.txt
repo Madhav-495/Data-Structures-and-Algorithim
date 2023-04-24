@@ -1,0 +1,37 @@
+void solve()
+{
+    int n;
+    cin>>n;
+    vector<int>nums;
+    while(n--){
+        int x;
+        cin>>x;
+        nums.push_back(x);
+    }
+    int d;
+    cin>>d;
+    // Here by mistake i used the n which is modified so never make a variable
+    d=d%nums.size();
+
+    int i=0,j=d-1;
+    while(j>i){
+        swap(nums[j--],nums[i++]);
+    }
+    // for(auto x:nums){
+    //     cout<<x<<" ";
+    // }
+    // cout<<"\n";
+    i=d;j=nums.size()-1;
+    while(j>i){
+        swap(nums[j--],nums[i++]);
+    }
+    i=0;j=nums.size()-1;
+    while(j>i){
+        swap(nums[j--],nums[i++]);
+    }
+    for(auto x:nums){
+        cout<<x<<" ";
+    }
+    cout<<"\n";
+
+}
