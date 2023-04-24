@@ -1,0 +1,55 @@
+int merge_array(vector<int>&nums,int l,int mid,int h){
+    int ans=0;
+    vector<int>arr1;
+    vector<int>arr2;
+    for(int i=l;i<=mid;i++){
+        arr1.push_back(nums[i]);
+    }
+    for(int i=mid+1;i<=h;i++){
+        arr2.push_back(nums[i]);
+    }
+    int k=l-1;
+    int i=0,j=0;
+    while(i<arr1.size()&&j<arr2.size()){
+        if(arr1[i]<=arr2[j]){
+            nums[++k]=arr1[i++];
+        }
+        else{
+            // rememeber these two steps 
+            int n1=mid-l+1;
+            ans+=n1-i;
+            nums[++k]=arr2[j++];
+        }
+    }
+    while(i<arr1.size()){
+        nums[++k]=arr1[i++];
+    }
+    while(j<arr2.size()){
+        nums[++k]=arr2[j++];
+    }
+    // cout<<ans<<endl;
+    return ans;
+}
+int merge_sort(vector<int>&nums,int l,int h){
+    // rememebr the condition of equal to in base case
+    if(l>=h) return 0;
+    int inv=0;
+    int mid=l+(h-l)/2;
+    // cout<<mid<<endl;
+    inv+=merge_sort(nums,l,mid);
+    inv+=merge_sort(nums,mid+1,h);
+    inv+=merge_array(nums,l,mid,h);
+    return inv;
+}
+void solve(){
+    int n;
+    cin>>n;
+    vector<int>nums;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        nums.push_back(x);
+    }
+    
+    cout<<merge_sort(nums,0,nums.size()-1)<<endl;
+}

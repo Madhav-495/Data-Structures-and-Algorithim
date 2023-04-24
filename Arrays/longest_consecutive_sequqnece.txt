@@ -1,0 +1,21 @@
+void solve(){
+    int n;
+    cin>>n;
+    int arr[n];
+    map<int,int>mp;
+    for(int i=0;i<n;i++){
+        cin>>arr[i];
+        mp[arr[i]]++;
+    }
+    int ans=0;
+    for(int i=0;i<n;i++){
+        if(mp.find(arr[i]-1)!=mp.end()) continue;
+        else{
+            int j=arr[i];
+            while(mp.find(j)!=mp.end()) j++;
+            ans=max(ans,j-arr[i]);
+        }
+    }
+    cout<<ans<<endl;
+
+}
