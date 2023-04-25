@@ -1,0 +1,45 @@
+ListNode*reverse_k_pairs(ListNode*&head,int k){
+    ListNode*prevptr=NULL;
+    ListNode*nextptr;
+    ListNode*currptr=head;
+    ListNode*currptr2=head;
+    int count=0;
+    while(currptr&&count<k){
+        currptr=currptr->next;
+        count++;
+    }
+    if(count<k) return currptr2;
+    count=0;
+    currptr=currptr2;
+    while(currptr&&count<k){
+        nextptr=currptr->next;
+        currptr->next=prevptr;
+        prevptr=currptr;
+        currptr=nextptr;
+        ++count;
+    }
+    if(head){
+        head->next=reverse_k_pairs(nextptr,k);
+    }
+    return prevptr;
+}
+void solve(){
+    ListNode*head=NULL;
+    ListNode*curr=head;
+    int n;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        insert(curr,x);
+        if(head==NULL) head=curr;
+    }
+    int k;
+    cin>>k;
+    ListNode*ans=reverse_k_pairs(head,k);
+    while(ans){
+        cout<<ans->val<<" ";
+        ans=ans->next;
+    }
+    
+}

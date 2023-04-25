@@ -1,0 +1,52 @@
+ListNode*reverse(ListNode*head){
+    ListNode*curr=head;
+    ListNode*prev=NULL;
+    while(curr){
+        ListNode*temp=curr->next;
+        curr->next=prev;
+        prev=curr;
+        curr=temp;
+    }
+    return prev;
+}
+void solve(){
+    ListNode*head=NULL;
+    ListNode*curr=head;
+    int n;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        insert(curr,x);
+        if(head==NULL) head=curr;
+    }
+    int k;
+    cin>>k;
+    int m=k+1;
+    ListNode*temp=new ListNode(-1);
+    ListNode*slow=temp;
+    ListNode*fast=temp;
+    temp->next=head;
+    while(m--){
+        fast=fast->next;
+    }
+    while(fast){
+        slow=slow->next;
+        fast=fast->next;
+    }
+    ListNode*left=head;
+    ListNode*right=slow->next;
+    slow->next=NULL;
+    left=reverse(left);
+    right=reverse(right);
+    curr=left;
+    while(curr->next){
+        curr=curr->next;
+    }
+    curr->next=right;
+    curr=reverse(left);
+    while(curr){
+        cout<<curr->val<<" ";
+        curr=curr->next;
+    }
+}

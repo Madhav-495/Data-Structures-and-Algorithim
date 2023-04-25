@@ -1,0 +1,99 @@
+struct ListNode{
+    ListNode*next;
+    int val;
+    ListNode*right;
+    ListNode(int x){
+        this->next=NULL;
+        this->val=x;
+        this->right=NULL;
+    }
+};
+void insert(ListNode*&curr,int x){
+    if(curr==NULL){
+        curr=new ListNode(x);
+        return;
+    }
+    else {
+        curr->next=new ListNode(x);
+        curr=curr->next;
+        return;
+    }
+}
+ListNode*merge(ListNode*l1,ListNode*l2){
+    if(l1==NULL) return l2;
+    if(l2==NULL) return l1;
+    ListNode*curr=new ListNode(-1);
+    ListNode*ans=curr;
+    ListNode*curr1=l1;
+    ListNode*curr2=l2;
+    while(curr1&&curr2){
+        if(curr1->val>=curr2->val){
+            curr->next=curr2;
+            ListNode*temp=curr2->next;
+            curr2->next=NULL;
+            curr2=temp;
+            curr=curr->next;
+        }
+        else{
+            curr->next=curr1;
+            ListNode*temp=curr1->next;
+            curr1->next=NULL;
+            curr1=temp;
+            curr=curr->next;
+        }
+    }
+    while(curr1){
+            curr->next=curr1;
+            ListNode*temp=curr1->next;
+            curr1->next=NULL;
+            curr1=temp;
+            curr=curr->next;
+    }
+    while(curr2){
+            curr->next=curr2;
+            ListNode*temp=curr2->next;
+            curr2->next=NULL;
+            curr2=temp;
+            curr=curr->next;
+    }
+    return ans->next;
+}
+void solve(){
+    ListNode*head=NULL;
+    ListNode*curr=head;
+    int n;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        int m;
+        cin>>m;
+        ListNode*temp_head=NULL;
+        ListNode*temp_curr=temp_head;
+        for(int i=0;i<m;i++){
+            int x;
+            cin>>x;
+            insert(temp_curr,x);
+            if(temp_head==NULL) temp_head=temp_curr;
+        }
+        if(curr==NULL){
+            curr=temp_head;
+            head=temp_head;
+        }
+        else{
+            curr->right=temp_head;
+            curr=curr->right;
+        }
+    }
+    ListNode*curr1=head;
+    ListNode*curr2=head->right;
+    ListNode*ans=curr1;
+    while(curr2){
+        ListNode*temp=curr2->right;
+        curr2->right=NULL;
+        ans=merge(curr2,ans);
+        curr2=temp;
+    }
+    while(ans){
+        cout<<ans->val<<" ";
+        ans=ans->next;
+    }
+}

@@ -1,0 +1,37 @@
+void solve(){
+    ListNode*head=NULL;
+    ListNode*curr=head;
+    int n;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        insert(curr,x);
+        if(head==NULL) head=curr;
+    }
+    int x;
+    cin>>x;
+    ListNode*ans=new ListNode(-1);
+    ListNode*f_ans=ans;
+    curr=head;
+    while(curr){
+        ListNode*temp=curr->next;
+        if(curr->val!=x){
+            if(curr->prev)
+            curr->prev->next=curr->next;
+            ans->next=curr;
+            if(curr->next)
+            curr->next->prev=curr->prev;
+            curr->prev=ans;
+            curr->next=NULL;
+            ans=ans->next;
+        }
+        curr=temp;
+    }
+    f_ans=f_ans->next;
+    while(f_ans){
+        cout<<f_ans->val<<" ";
+        f_ans=f_ans->next;
+    }
+    cout<<"\n";   
+}
