@@ -1,0 +1,27 @@
+void solve(){
+    int n;
+    cin>>n;
+    vector<int>nums;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        nums.push_back(x);
+    }
+    int ans=0;
+    int leftmax=INT_MIN;
+    int rightmax=INT_MIN;
+    int left=0,right=nums.size()-1;
+    while(right>=left){
+        if(nums[left]<=nums[right]){
+            leftmax=max(leftmax,nums[left]);
+            ans+=abs(leftmax-nums[left]);
+            left++;
+        }
+        else{
+            rightmax=max(rightmax,nums[right]);
+            ans+=(abs(rightmax-nums[right]));
+            right--;
+        }
+    }
+    cout<<ans<<endl;
+}

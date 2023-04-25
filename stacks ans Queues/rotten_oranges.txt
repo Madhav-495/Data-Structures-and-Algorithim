@@ -1,0 +1,47 @@
+void solve(){
+    int n,m;
+    cin>>n>>m;
+    int arr[n][m];
+    queue<pair<int,pair<int,int>>>q;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            cin>>arr[i][j];
+            if(arr[i][j]==2){
+                q.push({0,{i,j}});
+            }
+        }
+    }
+    int ans=0;
+    while(!q.empty()){
+        pair<int,pair<int,int>>temp=q.front();
+        q.pop();
+        int time=temp.first;
+        int x=temp.second.first;
+        int y=temp.second.second;
+        // cout<<x<<" "<<y<<endl;
+        ans=max(ans,time);
+        int i[4]={0,0,1,-1};
+        int j[4]={1,-1,0,0};
+        for(int k=0;k<4;k++){
+            int new_x=x+i[k];
+            int new_y=y+j[k];
+            if(new_x>=0&&new_x<n&&new_y<m&&new_y>=0&&arr[new_x][new_y]==1){
+                arr[new_x][new_y]=2;
+                q.push({time+1,{new_x,new_y}});
+            }
+        }
+        
+        
+    }
+    bool flag=true;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(arr[i][j]==1){
+                    flag=false;
+                    break;
+                }
+            }
+    }
+    if(!flag) cout<<"-1"<<endl;
+        else cout<<ans<<endl;
+}
