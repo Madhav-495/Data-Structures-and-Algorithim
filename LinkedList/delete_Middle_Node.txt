@@ -1,0 +1,33 @@
+void solve(){
+    ListNode*head=NULL;
+    ListNode*curr=head;
+    int n;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        insert(curr,x);
+        if(head==NULL) head=curr;
+    }
+    ListNode*slow=head;
+    ListNode*fast=head;
+    ListNode*prev=NULL;
+    while(fast&&fast->next){
+        prev=slow;
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+    if(prev)
+    prev->next=slow->next;
+    if(slow){
+    slow->next=NULL;
+    free(slow);
+    }
+    
+    curr=head;
+    if(curr==NULL) cout<<"NO vaue present in Linked List"<<endl;
+    while(curr){
+        cout<<curr->val<<" ";
+        curr=curr->next;
+    }
+}

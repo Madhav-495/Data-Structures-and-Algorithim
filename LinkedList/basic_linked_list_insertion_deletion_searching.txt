@@ -1,0 +1,73 @@
+struct ListNode{
+    ListNode*next;
+    int val;
+    ListNode(int x){
+        this->next=NULL;
+        this->val=x;
+    }
+};
+void insert(ListNode*&curr,int x){
+    if(curr==NULL){
+        curr=new ListNode(x);
+        return;
+    }
+    else {
+        curr->next=new ListNode(x);
+        curr=curr->next;
+        return;
+    }
+}
+int get_length(ListNode*head){
+    if(!head) return 0;
+    return 1+get_length(head->next);
+}
+bool search_element(ListNode*head,int x){
+    if(!head) return false;
+    ListNode*curr=head;
+    while(curr){
+        if(curr->val==x) return true;
+        curr=curr->next;
+    }
+    return false;
+}
+void delete_node(ListNode*&head,int x){
+    if(head==NULL) return ;
+    ListNode*prev=NULL;
+    ListNode*curr=head;
+    while(curr){
+        if(curr->val==x){
+            if(prev){
+                prev->next=curr->next;
+                curr->next=NULL;
+                return;
+            }
+            else{
+                head=head->next;
+                return;
+            }
+        }
+        prev=curr;
+        curr=curr->next;
+    }
+}
+void solve(){
+    int n;
+    cin>>n;
+
+    ListNode*head=NULL;
+    ListNode*curr=head;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        insert(curr,x);
+        if(head==NULL) head=curr;
+    }
+    cout<<get_length(head)<<endl;
+    cout<<search_element(head,7)<<endl;
+    delete_node(head,5);
+    curr=head;
+    while(curr){
+        cout<<curr->val<<" ";
+        curr=curr->next;
+    }
+}

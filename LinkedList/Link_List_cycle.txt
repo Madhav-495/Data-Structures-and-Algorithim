@@ -1,0 +1,46 @@
+void solve(){
+    ListNode*head=NULL;
+    ListNode*curr=head;
+    int n;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        insert(curr,x);
+        if(head==NULL) head=curr;
+    }
+    curr->next=head;
+    ListNode*ptr1=head;
+    ListNode*ptr2=head;
+    bool flag=false;
+    while(ptr1&&ptr2){
+        ptr2=ptr2->next;
+        if(ptr2) ptr2=ptr2->next;
+        ptr1=ptr1->next;
+        if(ptr1==ptr2){
+            // cout<<ptr1->val<<endl;
+            cout<<ptr1->val<<endl;
+            flag=true;
+            cout<<"LOOP DETECTED"<<endl;
+            break;
+        }   
+        
+    }
+
+    if(!flag) cout<<"LOOP NOT PRESENT"<<endl;
+    int len=0;
+    while(ptr1->next!=ptr2){
+        len++;
+        ptr1=ptr1->next;   
+    }
+
+    cout<<len<<endl;
+    ptr1=head;
+    
+    while(ptr1!=ptr2){
+        ptr1=ptr1->next;
+        ptr2=ptr2->next;
+    }
+    cout<<ptr1->val<<endl;
+
+}

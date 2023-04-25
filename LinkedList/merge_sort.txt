@@ -1,0 +1,67 @@
+    ListNode*get_mid(ListNode*head){
+    // cout<<head->val;
+    ListNode*slow=head;
+    ListNode*fast=head;
+    ListNode*prev=NULL;
+    while(fast&&fast->next){
+        prev=slow;
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+    if(!fast) {
+        return prev;
+    }
+    return slow;
+}
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        if(list1==NULL) return list2;
+        if(list2==NULL) return list1;
+
+        ListNode*curr=new ListNode(-1);
+        ListNode*ans=curr;
+        while(list1&&list2){
+            if(list1->val>=list2->val){
+                curr->next=list2;
+                ListNode*temp=list2->next;
+                list2->next=NULL;
+                list2=temp;
+                curr=curr->next;
+            }
+            else{
+                curr->next=list1;
+                ListNode*temp=list1->next;
+                list1->next=NULL;
+                list1=temp;
+                curr=curr->next;
+            }
+        }
+        while(list1){
+                curr->next=list1;
+                ListNode*temp=list1->next;
+                list1->next=NULL;
+                list1=temp;
+                curr=curr->next;
+        }
+        while(list2){
+                curr->next=list2;
+                ListNode*temp=list2->next;
+                list2->next=NULL;
+                list2=temp;
+                curr=curr->next;
+        }
+        return ans->next;
+
+}
+    ListNode* merge_sort(ListNode*head){
+    if(head==NULL||head->next==NULL) return head;
+
+    ListNode*mid=get_mid(head);
+    
+    ListNode*temp=mid->next;
+    
+    mid->next=NULL;
+    ListNode*left=merge_sort(head);
+    ListNode*right=merge_sort(temp);
+    ListNode*merged=mergeTwoLists(left,right);
+    return merged;
+}

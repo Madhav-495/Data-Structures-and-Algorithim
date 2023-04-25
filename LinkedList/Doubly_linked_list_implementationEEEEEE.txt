@@ -1,0 +1,109 @@
+struct ListNode{
+    ListNode*next;
+    ListNode*prev;
+    int val;
+    ListNode(int x){
+        this->next=NULL;
+        this->val=x;
+        this->prev=NULL;
+    }
+};
+void insert(ListNode*&curr,int x){
+    if(curr==NULL){
+        curr=new ListNode(x);
+        return;
+    }
+    else {
+        ListNode*temp=curr;
+        curr->next=new ListNode(x);
+        curr=curr->next;
+        curr->prev=temp;
+        return;
+    }
+}
+int get_length(ListNode*head){
+    if(!head) return 0;
+    return 1+get_length(head->next);
+}
+bool search_element(ListNode*head,int x){
+    if(!head) return false;
+    ListNode*curr=head;
+    while(curr){
+        if(curr->val==x) return true;
+        curr=curr->next;
+    }
+    return false;
+}
+void delete_node(ListNode*&head,int x){
+    if(head==NULL) return ;
+    ListNode*previ=NULL;
+    ListNode*curr=head;
+    while(curr){
+        if(curr->val==x){
+            if(previ){
+                previ->next=curr->next;
+                if(curr->next){
+                    curr->next->prev=previ;
+                }
+                curr->next=NULL;
+                curr->prev=NULL;
+                return;
+            }
+            else{
+                head=head->next;
+                return;
+            }
+        }
+        previ=curr;
+        curr=curr->next;
+    }
+}
+ListNode*reverse(ListNode*head){
+    ListNode*previ=NULL;
+    ListNode*curr=head;
+    while(curr){
+        curr->prev=curr->next;
+        curr->next=previ;
+        previ=curr;
+        curr=curr->prev;
+    }
+    return previ;
+}
+void solve(){
+    int n;
+    cin>>n;
+
+    ListNode*head=NULL;
+    ListNode*curr=head;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        insert(curr,x);
+        if(head==NULL) head=curr;
+    }
+    curr=head;
+    while(curr){
+        cout<<curr->val<<" ";
+        curr=curr->next;
+    }
+    cout<<"\n";
+    cout<<get_length(head)<<endl;
+    cout<<search_element(head,7)<<endl;
+    delete_node(head,6);
+    curr=head;
+    while(curr){
+        cout<<curr->val<<" ";
+        curr=curr->next;
+    }
+
+    cout<<"\n";
+    curr=reverse(head);
+    while(curr){
+        cout<<curr->val<<" ";
+        curr=curr->next;
+    }
+    // cout<<head->next->next->prev->val<<endl;
+    cout<<"\n";
+    
+
+}

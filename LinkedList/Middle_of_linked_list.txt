@@ -1,0 +1,43 @@
+struct ListNode{
+    ListNode*next;
+    int val;
+    ListNode(int x){
+        this->val=x;
+        this->next=NULL;
+    }
+};
+void insert(ListNode*&curr,int x){
+    if(curr==NULL){
+        curr=new ListNode(x);
+        return;
+    }
+    else{
+        curr->next=new ListNode(x);
+        curr=curr->next;
+        return;
+    }
+}
+void solve(){
+    ListNode*head=NULL;
+    ListNode*curr=head;
+    int n;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        insert(curr,x);
+        if(head==NULL) head=curr;
+    }
+    curr=head;
+    ListNode*fast=head;
+    ListNode*slow=head;
+    ListNode*prev=NULL;
+    while(fast&&fast->next){
+        prev=slow;
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+    cout<<prev->val<<endl;
+    cout<<slow->val<<endl;
+
+}

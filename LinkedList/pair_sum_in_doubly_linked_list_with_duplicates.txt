@@ -1,0 +1,32 @@
+void solve(){
+    ListNode*head=NULL;
+    ListNode*curr=head;
+    int n;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        insert(curr,x);
+        if(head==NULL) head=curr;
+    }
+    int target;
+    cin>>target;
+    ListNode*left=head;
+    ListNode*right=head;
+    while(right->next){
+        right=right->next;
+    }
+    while(left!=right){
+        if(left->val+right->val==target){
+            cout<<left->val<<" "<<right->val<<" "<<endl;
+            while(left!=right&&left->val==left->next->val) left=left->next;
+            while(left!=right&&right->val==right->prev->val) right=right->prev;
+            if(left->next==right) break;
+            left=left->next;
+            right=right->prev;
+        }
+        else if(left->val+right->val>target){
+            right=right->prev;
+        }else left=left->next;
+    }
+}

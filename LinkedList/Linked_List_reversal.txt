@@ -1,0 +1,63 @@
+struct ListNode{
+    ListNode*next;
+    int val;
+    ListNode(int x){
+        this->val=x;
+        this->next=NULL;
+    }
+};
+void insert(ListNode*&curr,int x){
+    if(curr==NULL){
+        curr=new ListNode(x);
+        return;
+    }
+    else{
+        curr->next=new ListNode(x);
+        curr=curr->next;
+        return;
+    }
+}
+ListNode*reverse_itr(ListNode*head){
+    ListNode*curr=head;
+    ListNode*prev=NULL;
+    while(curr){
+        ListNode*temp=curr->next;
+        curr->next=prev;
+        prev=curr;
+        curr=temp;
+    }
+    return prev;
+}
+void rev_rec(ListNode*&head,ListNode*curr,ListNode*prev){
+    if(curr==NULL) {
+        head=prev;
+        return;
+    }
+    rev_rec(head,curr->next,curr);
+    curr->next=prev;
+}
+void solve(){
+    ListNode*head=NULL;
+    ListNode*curr=head;
+    int n;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        insert(curr,x);
+        if(head==NULL) head=curr;
+    }
+    // curr=reverse_itr(head);
+    // while(curr){
+    //     cout<<curr->val<<" ";
+    //     curr=curr->next;
+    // }
+    
+    rev_rec(head,head,NULL);
+    curr=head;
+    while(curr){
+        cout<<curr->val<<" ";
+        curr=curr->next;
+    }
+
+}

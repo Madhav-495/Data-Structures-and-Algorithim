@@ -1,0 +1,50 @@
+void solve(){
+    ListNode*head=NULL;
+    ListNode*curr=head;
+    int n;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        insert(curr,x);
+        if(head==NULL) head=curr;
+    }
+    ListNode*slow=head;
+    ListNode*fast=head;
+    while(fast&&fast->next){
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+
+    bool flag=true;
+    if(fast){
+        // odd len
+        fast=head;
+        slow=slow->next;
+        while(slow){
+            if(fast->val!=slow->val){
+                flag=false;
+                break;
+            }
+            slow=slow->next;
+            fast=fast->next;
+        }
+    }
+    else{
+        // even len
+        fast=head;
+        while(slow){
+            if(fast->val!=slow->val){
+                flag=false;
+                break;
+            }
+            slow=slow->next;
+            fast=fast->next;
+        }
+    }
+    if(flag){
+        cout<<"Palindrome "<<endl;
+    }
+    else cout<<"Not Palindrome"<<endl;
+    
+}
