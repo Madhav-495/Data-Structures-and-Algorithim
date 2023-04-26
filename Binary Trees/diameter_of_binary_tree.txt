@@ -1,0 +1,49 @@
+struct TreeNode{
+    TreeNode*left;
+    TreeNode*right;
+    int val;
+    TreeNode(int x){
+        this->left=NULL;
+        this->right=NULL;
+        this->val=x;
+    }
+};
+int diameter(TreeNode*root,int &res){
+    if(root==NULL){
+        return 0;
+    }
+    int left=diameter(root->left,res);
+    int right=diameter(root->right,res);
+    int spath=max(left,right)+1;
+    int cpath=left+right+1;
+    res=max(res,max(spath,cpath));
+    return spath;
+}
+void solve(){
+    TreeNode*root=new TreeNode(1);
+    root->left=new TreeNode(2);
+    root->right=new TreeNode(3);
+    root->left->left=new TreeNode(4);
+    root->left->right=new TreeNode(5);
+    root->left->right->left=new TreeNode(8);
+    root->right->left=new TreeNode(6);
+    root->right->right=new TreeNode(7);
+    root->right->right->left=new TreeNode(9);
+    root->right->right->right=new TreeNode(10);
+    
+    int res=0;
+    TreeNode*root2=new TreeNode(4);
+    root2->left=new TreeNode(7);
+    root2->right=new TreeNode(8);
+    root2->right->left=new TreeNode(1);
+    root->right->left->left=new TreeNode(3);
+    root->right->left->left->left=new TreeNode(5);
+    root->right->left->left->left->left=new TreeNode(4);
+    root2->right->right=new TreeNode(0);
+    root2->right->right->left=new TreeNode(2);
+    root2->right->right->left->left=new TreeNode(0);
+    root2->right->right->right=new TreeNode(4);
+    diameter(root2,res);
+    cout<<res<<endl;  
+
+}

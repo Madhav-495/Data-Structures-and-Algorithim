@@ -1,0 +1,181 @@
+struct TreeNode{
+    TreeNode*left;
+    TreeNode*right;
+    int val;
+    TreeNode(int x){
+        this->left=NULL;
+        this->right=NULL;
+        this->val=x;
+    }
+};
+void preorder(TreeNode*root){
+    if(root==NULL) return;
+    cout<<root->val<<" ";
+    preorder(root->left);
+    preorder(root->right);
+}
+void levelorder(TreeNode*root){
+    queue<TreeNode*>q;
+    q.push(root);
+    q.push(NULL);
+    vector<vector<int>>ans;
+    vector<int>temp2;
+
+    while(!q.empty()){
+        TreeNode*temp=q.front();
+        q.pop();
+        if(temp==NULL){
+            ans.push_back(temp2);
+            temp2.clear();
+            if(!q.empty()){
+                q.push(NULL);
+            }
+        }
+        else{
+            temp2.push_back(temp->val);
+            if(temp->left){
+                q.push(temp->left);
+            }
+            if(temp->right) q.push(temp->right);
+        }
+    }
+    for(auto x:ans){
+        for(auto y:x){
+            cout<<y<<" ";
+        }
+        cout<<"\n";
+    }
+}
+void pre_itr(TreeNode*root){
+    TreeNode*curr=root;
+    stack<TreeNode*>s;
+    s.push(root);
+    while(!s.empty()){
+        TreeNode*temp=s.top();
+        s.pop();
+        cout<<temp->val<<" ";
+        if(temp->right){
+            s.push(temp->right);
+        }
+        if(temp->left){
+            s.push(temp->left);
+        }
+
+    }
+}
+void inorder_itr(TreeNode*root){
+    if(root==NULL) return;
+    TreeNode*curr=root;
+    stack<TreeNode*>s;
+    cout<<curr->val<<endl;
+    while(1){
+        if(curr){
+            s.push(curr);
+            curr=curr->left;
+        }
+        else{
+            if(s.empty()) break;
+            curr=s.top();
+            cout<<s.top()->val<<" ";
+            s.pop();
+            curr=curr->right;
+        }
+    }
+}
+void postorder_itr1(TreeNode*root){
+    stack<TreeNode*>s1;
+    stack<TreeNode*>s2;
+    s1.push(root);
+    while(!s1.empty()){
+        TreeNode*curr=s1.top();
+        s1.pop();
+        s2.push(curr);
+        if(curr->left){
+            s1.push(curr->left);
+        }
+        if(curr->right){
+            s1.push(curr->right);
+        }
+    }
+    while(!s2.empty()){
+        cout<<s2.top()->val<<" ";
+        s2.pop();
+    }
+    return ;
+}
+void postorder_itr2(TreeNode*root){
+    TreeNode*curr=root;
+    stack<TreeNode*>st;
+    while(curr||!st.empty()){
+        if(curr){
+            st.push(curr);
+            curr=curr->left;
+        }
+        else{
+            TreeNode*temp=st.top()->right;
+            if(!temp){
+                temp=st.top();
+                st.pop();
+                cout<<temp->val<<" ";
+                while(!st.empty()&&temp==st.top()->right){
+                    temp=st.top();
+                    st.pop();
+                    cout<<temp->val<<" ";
+                }
+            }
+            else{
+                curr=temp;
+            }
+        }
+    }
+}
+void all_traversals(TreeNode*root,vector<int>&preorder,vector<int>&postorder,vector<int>&inorder){
+    if(root==NULL) return;
+    preorder.push_back(root->val);
+    all_traversals(root->left,preorder,postorder,inorder);
+    inorder.push_back(root->val);
+    all_traversals(root->right,preorder,postorder,inorder);
+    postorder.push_back(root->val);
+}
+void solve(){
+    TreeNode*root=new TreeNode(1);
+    root->left=new TreeNode(2);
+    root->right=new TreeNode(3);
+    root->left->left=new TreeNode(4);
+    root->left->right=new TreeNode(5);
+    root->left->right->left=new TreeNode(8);
+    root->right->left=new TreeNode(6);
+    root->right->right=new TreeNode(7);
+    root->right->right->left=new TreeNode(9);
+    root->right->right->right=new TreeNode(10);
+    pre_itr(root);
+    cout<<"\n";
+    inorder_itr(root);
+    cout<<"\n";
+    postorder_itr1(root);
+    cout<<"\n";
+    postorder_itr2(root);
+    cout<<"\n";
+    vector<int>preorder;
+    vector<int>inorder;
+    vector<int>postorder;
+    all_traversals(root,preorder,postorder,inorder);
+    for(auto x:preorder){
+        cout<<x<<" ";
+    }
+    cout<<"\n";
+    for(auto x:inorder){
+        cout<<x<<" ";
+    }
+    cout<<"\n";
+    for(auto x:postorder){
+        cout<<x<<" "; 
+    }
+    cout<<"\n";
+    /*
+        1
+    2      3
+
+
+    */
+}

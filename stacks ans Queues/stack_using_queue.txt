@@ -1,0 +1,47 @@
+queue<int>q;
+int size=0;
+void push(int num){
+    q.push(num);
+    size++;
+    // loop can only be used single time here
+    // loop can be avoided in pop and top function
+}
+void pop(){
+    if(size==0||q.size()==0) {
+        cout<<"QUEUE UNDERLOW"<<endl;
+        return;
+    }
+    int temp=size-1;
+    while(temp--){
+        int element=q.front();
+        q.pop();
+        q.push(element);
+    }
+    q.pop();
+    size--;
+}
+int get_top(){
+    if(q.size()==0){
+        cout<<"NO ELEMENT PRESENT IN THE QUEUE"<<endl;
+        return -1;
+    }
+    int temp=size-1;
+    while(temp--){
+        int element=q.front();
+        q.pop();
+        q.push(element);
+    }
+    return q.front();
+}
+void solve(){
+    push(3);
+    push(4);
+    push(5);
+    cout<<get_top()<<endl;
+    pop();
+    cout<<get_top()<<endl;
+    pop();
+    pop();
+    cout<<get_top()<<endl;
+    pop();
+}

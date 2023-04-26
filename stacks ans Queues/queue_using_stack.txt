@@ -1,0 +1,35 @@
+stack<int>s;
+void push(int num){
+    if(s.empty()){
+        s.push(num);
+        return;
+    }
+    int element=s.top();
+    s.pop();
+    push(num);
+    s.push(element);
+}
+void pop(){
+    if(s.size()==0) {
+        cout<<"NO ELEMENT IN THE QUEUE"<<endl;
+    }
+    return s.pop();
+}
+int get_front(){
+    if(s.size()==0) {
+        cout<<"NO ELEMENT IN THE QUEUE"<<endl;
+    }
+    return s.top();
+}
+void solve(){
+    push(1);
+    push(2);
+    push(3);
+    cout<<get_front()<<endl;
+    pop();
+    cout<<get_front()<<endl;
+    pop();
+    cout<<get_front()<<endl;
+    pop();
+    pop();
+}

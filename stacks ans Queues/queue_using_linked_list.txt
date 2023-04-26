@@ -1,0 +1,60 @@
+struct ListNode{
+    ListNode*next;
+    int val;
+    ListNode(int x){
+        this->val=x;
+        this->next=NULL;
+    }
+};
+ListNode*head=NULL;
+ListNode*curr=NULL;
+void push(int num){
+    if(head==NULL){
+        curr=new ListNode(num);
+        head=curr;
+    }
+    else{
+        ListNode*temp=new ListNode(num);
+        curr->next=temp;
+        curr=curr->next;
+    }
+}
+void pop(){
+    if(head==NULL){
+        cout<<"NO ELEMENT PRESENT IN QUEUE"<<endl;
+        return;
+    }
+    ListNode*temp=head->next;
+    head->next=NULL;
+    free(head);
+    head=temp;
+    if(head==NULL){
+        curr=NULL;
+    }
+}
+int get_front(){
+    if(head==NULL){
+        cout<<"NO ELEMENT PRESENT IN QUEUE"<<endl;
+        return -1;
+    }
+    return head->val;
+}
+int get_top(){
+    if(head==NULL){
+        cout<<"NO ELEMENT PRESENT IN STACK"<<endl;
+        return -1;
+    }
+    return curr->val;
+}
+void solve(){
+    // cout<<get_top()<<endl;
+    push(2);
+    push(3);
+    push(4);
+    cout<<get_front()<<endl;
+    pop();
+    cout<<get_front()<<endl;
+    pop();
+    pop();
+    pop();
+}

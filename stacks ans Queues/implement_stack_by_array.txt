@@ -1,0 +1,34 @@
+#define n 1e5
+int top=-1;
+int arr[10005];
+void push(int num){
+
+    if(top==n-1) cout<<"STACK OVERFLOW"<<"\n";
+    else
+    arr[++top]=num;
+}
+void pop(){
+    if(top==-1) cout<<"STACK UNDERFLOW"<<endl;
+    else{
+        top--;
+    }
+}
+int get_top(){
+    if(top==-1){
+        cout<<"STACK UNDERFLOW"<<endl;
+        return 0;
+    } 
+    return arr[top];
+}
+void solve(){
+    // memset(arr,sizeof(arr),-1);
+    push(3);
+    push(4);
+    push(5);
+
+    cout<<get_top()<<endl;
+    pop();
+    pop();
+    pop();
+    pop();
+}

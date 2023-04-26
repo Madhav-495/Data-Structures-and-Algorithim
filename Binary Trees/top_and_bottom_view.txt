@@ -1,0 +1,49 @@
+struct TreeNode{
+    TreeNode*left;
+    TreeNode*right;
+    int val;
+    TreeNode(int x){
+        this->left=NULL;
+        this->right=NULL;
+        this->val=x;
+    }
+};
+void top_view(TreeNode*root,map<int,TreeNode*>&mp,int level){
+    if(root==NULL) return ;
+    if(mp.find(level)==mp.end()){
+        mp[level]=root;
+    }
+    top_view(root->left,mp,level-1);
+    top_view(root->right,mp,level+1);
+}
+void bottom_view(TreeNode*root,map<int,TreeNode*>&mp,int level){
+    if(root==NULL) return ;
+    
+    mp[level]=root;
+    
+    
+    bottom_view(root->left,mp,level-1);
+    bottom_view(root->right,mp,level+1);
+}
+void solve(){
+    int res=0;
+    TreeNode*root2=new TreeNode(10);
+    root2->left=new TreeNode(20);
+    root2->right=new TreeNode(30);
+    root2->left->left=new TreeNode(40);
+    root2->left->right=new TreeNode(60);
+    root2->right->left=new TreeNode(90);
+    root2->right->right=new TreeNode(100);
+    map<int,TreeNode*>mp;
+    top_view(root2,mp,0);
+    for(auto x:mp){
+        cout<<x.second->val<<" ";
+    }cout<<"\n";
+    mp.clear();
+    // cout<<mp.size()<<endl;
+    bottom_view(root2,mp,0);
+    for(auto x:mp){
+        cout<<x.second->val<<" ";
+    }cout<<"\n";
+
+}

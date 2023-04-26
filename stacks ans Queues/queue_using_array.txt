@@ -1,0 +1,31 @@
+void pop(){
+    if(front>back||front==-1) {
+        cout<<"QUEUE UNDERFLOW"<<endl;
+    }
+    else{
+        front++;
+        if(front>back){
+            front=-1;
+            back=-1;
+        }
+    }
+    return ;
+}
+int get_front(){
+    if(front==-1){
+        cout<<"NO element present in the queue";
+        return -1;
+    }
+    return arr[front]; 
+}
+void solve(){
+    push(3);
+    push(4);
+    push(5);
+    cout<<get_front()<<endl;
+    pop();
+    pop();
+    pop();
+    pop();
+
+}
