@@ -1,0 +1,23 @@
+class Solution {
+        bool isIdentical(TreeNode *r1, TreeNode *r2)
+    {
+       if(r1==NULL&&r2==NULL){
+           return true;
+       }
+       else if(r1==NULL||r2==NULL){
+           return false;
+       }
+       else if(r1->val!=r2->val){
+           return false;
+       }bool leftans=isIdentical(r1->left,r2->right);
+       bool rightans=isIdentical(r1->right,r2->left);
+       if(leftans==true&&rightans==true){
+           return true;
+       }return false;
+     }
+public:
+    bool isSymmetric(TreeNode* root) {
+        if(!root) return true;
+        return isIdentical(root->left,root->right);
+    }
+};

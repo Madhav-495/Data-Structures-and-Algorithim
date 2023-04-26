@@ -1,0 +1,64 @@
+struct TreeNode{
+    TreeNode*left;
+    TreeNode*right;
+    int val;
+    TreeNode(int x){
+        this->left=NULL;
+        this->right=NULL;
+        this->val=x;
+    }
+};
+void path_nodes(TreeNode*root,vector<TreeNode*>&path,bool &flag,int &x){
+    if(root==NULL) return;
+    if(root->val==x){
+        path.push_back(root);
+        flag=true;
+        return;
+    }
+    
+    if(!flag){
+        path.push_back(root);
+        path_nodes(root->left,path,flag,x);
+    }
+    if(!flag){
+        path_nodes(root->right,path,flag,x);
+        if(!flag)
+        path.pop_back();
+    }
+    
+
+}
+void nodes_at_dis_k(TreeNode*root,TreeNode*blocker,int k,vector<int>&ans){
+    if(root==NULL||root==blocker) return;
+    if(k==0){
+        ans.push_back(root->val);
+        return;
+    }
+    nodes_at_dis_k(root->left,blocker,k-1,ans);
+    nodes_at_dis_k(root->right,blocker,k-1,ans);
+}
+void solve(){
+    int res=0;
+    TreeNode*root2=new TreeNode(10);
+    root2->left=new TreeNode(20);
+    root2->right=new TreeNode(30);
+    root2->left->left=new TreeNode(40);
+    root2->left->right=new TreeNode(60);
+    root2->right->left=new TreeNode(90);
+    root2->right->right=new TreeNode(100);
+    vector<TreeNode*>nodes;
+    bool flag=false;
+    int x=90;
+    int k=2;
+    path_nodes(root2,nodes,flag,x);
+    reverse(nodes.begin(),nodes.end());
+    vector<int>ans;
+    for(int i=0;i<nodes.size();i++){
+        TreeNode*blocker=(i==0)?NULL:nodes[i-1];
+        nodes_at_dis_k(nodes[i],blocker,k-i,ans);
+    }
+    for(auto x:ans){
+        cout<<x<<" ";
+    }
+    cout<<"\n";
+}

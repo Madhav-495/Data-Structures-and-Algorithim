@@ -1,0 +1,25 @@
+void vertical_traversal(TreeNode*root,int level,map<int,vector<int>>&mp){
+    if(root==NULL) return ;
+    mp[level].push_back(root->val);
+    vertical_traversal(root->left,level-1,mp);
+    vertical_traversal(root->right,level+1,mp);
+}
+void solve(){
+    int res=0;
+    TreeNode*root2=new TreeNode(10);
+    root2->left=new TreeNode(20);
+    root2->right=new TreeNode(30);
+    root2->left->left=new TreeNode(40);
+    root2->left->right=new TreeNode(60);
+    root2->right->left=new TreeNode(90);
+    root2->right->right=new TreeNode(100);
+    map<int,vector<int>>mp;
+    vertical_traversal(root2,0,mp);
+    for(auto x:mp){
+        cout<<"Level is "<<x.first<<" ";
+        for(auto y:x.second){
+            cout<<y<<" ";
+        }
+        cout<<endl;
+    }
+}

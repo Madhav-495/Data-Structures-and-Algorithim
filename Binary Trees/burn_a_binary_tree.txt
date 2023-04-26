@@ -1,0 +1,59 @@
+struct TreeNode{
+    TreeNode*left;
+    TreeNode*right;
+    int val;
+    TreeNode(int x){
+        this->left=NULL;
+        this->right=NULL;
+        this->val=x;
+    }
+};
+void parent_mapping(TreeNode*root,map<TreeNode*,TreeNode*>&mp){
+    if(root==NULL){
+        return ;
+    }
+    if(root->left){
+        mp[root->left]=root;
+    }
+    if(root->right){
+        mp[root->right]=root;
+    }
+    parent_mapping(root->left,mp);
+    parent_mapping(root->right,mp);
+}
+void solve(){
+    int res=0;
+    TreeNode*root2=new TreeNode(10);
+    root2->left=new TreeNode(20);
+    root2->right=new TreeNode(30);
+    root2->left->left=new TreeNode(40);
+    root2->left->right=new TreeNode(60);
+    root2->right->left=new TreeNode(90);
+    root2->right->right=new TreeNode(100);
+    map<TreeNode*,TreeNode*>mp;
+    parent_mapping(root2,mp);
+    TreeNode*src=root2->left;
+    queue<pair<TreeNode*,int>>q;
+    set<TreeNode*>s;
+    q.push({src,0});
+    s.insert(src);
+    int ans=0;
+    while(!q.empty()){
+        pair<TreeNode*,int>temp=q.front();
+        q.pop();
+        ans=max(ans,temp.second);
+        if(temp.first->left&&s.find(temp.first->left)==s.end()){
+            s.insert(temp.first->left);
+            q.push({temp.first->left,temp.second+1});
+        }
+        if(temp.first->right&&s.find(temp.first->right)==s.end()){
+            s.insert(temp.first->right);
+            q.push({temp.first->right,temp.second+1});
+        }
+        if(mp.find(temp.first)!=mp.end()&&s.find(mp[temp.first])==s.end()){
+            q.push({mp[temp.first],temp.second+1});
+            s.insert(mp[temp.first]);
+        }
+    }
+    cout<<ans<<endl;
+}
