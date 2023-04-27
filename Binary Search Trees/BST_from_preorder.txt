@@ -1,0 +1,43 @@
+TreeNode*make_tree(vector<int>&preorder,int mini,int maxi,int &idx){
+    if(idx>=preorder.size()) return NULL;
+    int element=preorder[idx];
+    if(element<mini||element>maxi) return NULL;
+    idx++;
+    TreeNode*root=new TreeNode(element);
+    root->left=make_tree(preorder,mini,element,idx);
+    root->right=make_tree(preorder,element,maxi,idx);
+    return root;
+}
+void preorder_tra(TreeNode*root,vector<int>&ans){
+    if(!root) return;
+    ans.push_back(root->val);
+    preorder_tra(root->left,ans);
+    preorder_tra(root->right,ans);
+}
+void solve(){
+    
+    TreeNode*root2=new TreeNode(35);
+    root2->left=new TreeNode(7);
+    root2->right=new TreeNode(40);
+    root2->left->left=new TreeNode(2);
+    root2->left->right=new TreeNode(8);
+    root2->right->left=new TreeNode(39);
+    root2->right->right=new TreeNode(41);
+    int n;
+    cin>>n;
+    vector<int>preorder;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        preorder.push_back(x);
+    }
+    vector<int>ans;
+    int idx=0;
+    TreeNode*root=make_tree(preorder,INT_MIN,INT_MAX,idx);
+    preorder_tra(root,ans);
+    for(auto x:ans){
+        cout<<x<<" ";
+    }
+    cout<<"\n";
+    
+}

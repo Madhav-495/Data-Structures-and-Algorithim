@@ -1,0 +1,42 @@
+void swap_nodes(TreeNode*root2,TreeNode*&curr,TreeNode*&prev,TreeNode*&next){
+    if(root2==NULL) return;
+    swap_nodes(root2->left,curr,prev,next);
+    if(prev&&root2->val<prev->val){
+        if(curr==NULL){
+            curr=prev;
+            next=root2;
+        }
+
+        else{
+            next=root2;
+        }
+    }
+    prev=root2;
+    swap_nodes(root2->right,curr,prev,next);
+}
+void solve(){
+    
+    TreeNode*root2=new TreeNode(35);
+    root2->left=new TreeNode(8);
+    root2->right=new TreeNode(40);
+    root2->left->left=new TreeNode(2);
+    root2->left->right=new TreeNode(7);
+    root2->right->left=new TreeNode(39);
+    root2->right->right=new TreeNode(41);
+    vector<int>ans;
+    inorder(ans,root2);
+    for(auto x:ans){
+        cout<<x<<" ";
+    }
+    cout<<"\n";
+    TreeNode*curr=NULL;
+    TreeNode*prev=NULL;
+    TreeNode*next=NULL;
+    swap_nodes(root2,curr,prev,next);
+    swap(curr->val,next->val);
+    vector<int>ans2;
+    inorder(ans2,root2);
+    for(auto x:ans2){
+        cout<<x<<" ";
+    }  
+}

@@ -1,0 +1,67 @@
+void inorder(vector<int>&ans,TreeNode*root){
+    if(root==NULL) return;
+    inorder(ans,root->left);
+    ans.push_back(root->val);
+    inorder(ans,root->right);
+}
+TreeNode* delete_node(TreeNode*&root,int key){
+    if(root==NULL){
+        return NULL;
+    }
+    if(root->val==key){
+        if(root->left==NULL&&root->right==NULL){
+            free(root);
+            return NULL;
+        }
+        if(root->left==NULL&&root->right!=NULL){
+            TreeNode*temp=root->right;
+            free(root);
+            return temp;
+        }
+        if(root->left&&!root->right){
+            TreeNode*temp=root->left;
+            free(root);
+            return temp;
+        }
+        if(root->left&&root->right){
+
+            TreeNode*temp=root->right;
+            while(temp->left){
+                temp=temp->left;
+            }
+            root->val=temp->val;
+            root->right =delete_node(root->right,temp->val);
+            return root;
+
+        }
+    }
+    else if(root->val>key){
+        root->left=delete_node(root->left,key);
+        return root;
+    }
+    else {
+
+        root->right=delete_node(root->right,key);
+        // cout<<root->right->val<<endl;
+        return root;
+    }
+    return root;
+}
+void solve(){
+    
+    TreeNode*root2=new TreeNode(35);
+    root2->left=new TreeNode(8);
+    root2->right=new TreeNode(40);
+    root2->left->left=new TreeNode(2);
+    root2->left->right=new TreeNode(7);
+    root2->right->left=new TreeNode(39);
+    root2->right->right=new TreeNode(41);
+    root2 =delete_node(root2,40);
+    vector<int>ans;
+    inorder(ans,root2);
+    for(auto x:ans){
+        cout<<x<<" ";
+    }
+    cout<<"\n";
+
+}

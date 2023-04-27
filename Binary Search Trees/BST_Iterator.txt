@@ -1,0 +1,28 @@
+class BSTIterator {
+    stack<TreeNode*>st;
+public:
+// use the concepts of iterative inorder traversal
+    BSTIterator(TreeNode* root) {
+        TreeNode*temp=root;
+        while(temp){
+            st.push(temp);
+            temp=temp->left;
+        }
+    }
+    
+    int next() {
+        int temp=st.top()->val;
+        TreeNode*temp2=st.top()->right;
+        st.pop();
+        while(temp2){
+            
+            st.push(temp2);
+            temp2=temp2->left;
+        }
+        return temp;
+    }
+    
+    bool hasNext() {
+        return !st.empty();
+    }
+};

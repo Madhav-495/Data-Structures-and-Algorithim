@@ -1,0 +1,31 @@
+class Solution {
+    class req_info{
+        public:
+        bool is_valid;
+        int max_val;
+        int min_val;
+        int sum;
+    };
+    req_info solve(TreeNode*root,int&max_sum){
+        if(root==NULL){
+            return {true,INT_MIN,INT_MAX,0};
+        }
+        req_info left=solve(root->left,max_sum);
+        req_info right=solve(root->right,max_sum);
+        if(left.is_valid&&right.is_valid&&(root->val>left.max_val&&root->val<right.min_val)){
+            max_sum=max(max_sum,left.sum+right.sum+root->val);
+            // cout<<root->val<<" "<<max_sum<<" "<<left.max_val<<" "<<right.min_val<<" "<<endl;
+            return {true,max(root->val,right.max_val),min(root->val,left.min_val),left.sum+right.sum+root->val};
+        }
+        return {false,INT_MIN,INT_MAX,0};
+
+        
+    }
+public:
+    int maxSumBST(TreeNode* root) {
+        int max_sum=INT_MIN;
+        solve(root,max_sum);
+        if(max_sum>=0) return max_sum;
+        return 0;
+    }
+};
