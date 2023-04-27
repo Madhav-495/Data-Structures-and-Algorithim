@@ -1,0 +1,33 @@
+void solve(){
+    vector<int>nums;
+    int n;
+    cin>>n;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        nums.push_back(x);
+    }
+    int k;
+    cin>>k;
+    int ans=0;
+    int i=0,j=0;
+    while(j<nums.size()){
+        if(nums[j]==1){
+            j++;
+        }
+        else if(nums[j]==0){
+            k--;
+            while(k<0){
+                if(nums[i]==0) k++;
+                i++;
+            }
+            
+            j++;
+        }
+        
+        ans=max(ans,j-i);
+
+    }
+    
+    cout<<ans<<endl;
+}

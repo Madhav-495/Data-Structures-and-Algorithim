@@ -1,0 +1,23 @@
+class Solution {
+    int sum_atmost_goals(vector<int>&nums,int goals){
+        if(goals<0) return 0;
+        int i=0,j=0;
+        int sum=0;
+        int ans=0;
+        while(j<nums.size()){
+            sum+=(nums[j]&1)?1:0;
+            
+            while(sum>goals){
+                sum-=(nums[i]&1)?1:0;
+                i++;
+            }
+            ans+=(j-i+1);
+            j++;
+        }
+        return ans;
+    }
+public:
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        return sum_atmost_goals(nums,k)-sum_atmost_goals(nums,k-1);
+    }
+};

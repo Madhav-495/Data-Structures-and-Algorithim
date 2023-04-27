@@ -1,0 +1,57 @@
+class Solution {
+    int solve_array(vector<int> &A, int B) {
+    map<int,int>mp;
+    int i=0,j=0;
+    int ans1=0;
+    int n=A.size();
+    while(j<n){
+        mp[A[j]]++;
+        if(mp.size()<=B) {
+            ans1+=(j-i+1);
+            j++;
+        }
+        
+        else{
+            while(mp.size()>B&&i<=j){
+
+                mp[A[i]]--;
+                if(mp[A[i]]==0) mp.erase(A[i]);
+                // cout<<i<<" "<<j<<" "<<mp.size()<<endl;
+                i++;
+            }
+            ans1+=(j-i+1);
+            j++;
+        }
+    }
+    // cout<<ans1<<endl;
+    // return ans1;
+    int ans2=0;
+    mp.clear();
+    i=0;j=0;
+    if(B==1) return ans1;
+    while(j<n){
+        mp[A[j]]++;
+        if(mp.size()<=B-1) {
+            ans2+=(j-i+1);
+            j++;
+        }
+        else{
+            while(mp.size()>B-1){
+                mp[A[i]]--;
+                if(mp[A[i]]==0) mp.erase(A[i]);
+                i++;
+            }
+            ans2+=(j-i+1);
+            j++;
+        }
+
+    }
+    
+   
+    return ans1-ans2;
+}
+public:
+    int subarraysWithKDistinct(vector<int>& nums, int k) {
+        return solve_array(nums,k);
+    }
+};
