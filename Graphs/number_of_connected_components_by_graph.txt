@@ -1,0 +1,30 @@
+void dfs(vector<int>adj[],vector<int>&vis,int element){
+    vis[element]=1;
+    for(auto x:adj[element]){
+        if(!vis[x]){
+            dfs(adj,vis,x);
+        }
+    }
+}
+void solve(){
+    int n,e;
+    cin>>n>>e;
+    // considering graph to be 1 based vertices
+    vector<int>adj[n+1];
+    for(int i=0;i<e;i++){
+        int x,y;
+        cin>>x>>y;
+        adj[x].push_back(y);
+        adj[y].push_back(x);
+    }
+
+    vector<int>vis(n+1,0);
+    int count =0;
+    for(int i=1;i<=n;i++){
+        if(!vis[i]){
+            count++;
+            dfs(adj,vis,i);
+        }
+    }
+    cout<<count<<endl;
+}

@@ -1,0 +1,39 @@
+bool dfs(vector<int>adj[],vector<int>&vis,int element,vector<int>&pathvis){
+    vis[element]=1;
+    pathvis[element]=1;
+    for(auto x:adj[element]){
+        if(!vis[x]){
+            if(dfs(adj,vis,x,pathvis)) return true;
+        }
+        else if(pathvis[x]==1) return true;
+    }
+    pathvis[element]=0;
+    return false;
+}
+void solve(){
+    int n,e;
+    cin>>n>>e;
+    // considering graph to be 1 based vertices
+    vector<int>adj[n+1];
+    for(int i=0;i<e;i++){
+        int x,y;
+        cin>>x>>y;
+        adj[x].push_back(y);
+        // adj[y].push_back(x);
+    }
+
+    vector<int>vis(n+1,0);
+    vector<int>pathvis(n+1,0);
+    bool flag=false;
+    for(int i=1;i<=n;i++){
+        if(!vis[i]){
+            
+            if(dfs(adj,vis,i,pathvis)){
+                flag=true;
+                break;
+            }
+        }
+    }
+    if(flag) cout<<"YES"<<endl;
+    else cout<<"NO"<<endl;
+}

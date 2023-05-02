@@ -1,0 +1,62 @@
+#include<bits/stdc++.h>
+using namespace std;
+class DisjointSet{
+    private:
+    vector<int>parent;
+    vector<int>rank;
+    public:
+    DisjointSet(int n){
+        parent.resize(n);
+        rank.resize(n+1,0);
+        for(int i=0;i<parent.size();i++){
+            parent[i]=i;
+        }
+    }
+    int findUp(int node){
+        if(node==parent[node]) return node;
+        return parent[node]=findUp(parent[node]);
+    }
+    void unionByRank(int u,int v){
+        int up_u=findUp(u);
+        int up_v=findUp(v);
+        if(up_u==up_v) return;
+        if(rank[up_u]>rank[up_v]){
+            parent[up_v]=up_u;
+        }
+        else if(rank[up_u]<rank[up_v]){
+            parent[up_u]=up_v;
+        }
+        else{
+            parent[up_v]=up_u;
+            rank[up_u]++;
+        }
+    }
+};
+int main(){
+    int n,e;
+    cin>>n>>e;
+    
+    vector<vector<int>>edges;
+    for(int i=0;i<n;i++){
+        int u,v,cost;
+        cin>>u>>v>>cost;
+        edges.push_back({u,v,cost});
+    }
+    sort(edges.begin(),edges.end(),[](vector<int>&a,vector<int>&b){
+       return a[2]<b[2]; 
+    });
+    DisjointSet ds(n);
+    int total_cost=0;
+    for(auto x:edges){
+        int u=x[0];
+        int v=x[1];
+        int cost=x[2];
+        if(ds.findUp(u)!=ds.findUp(v)){
+            total_cost+=cost;
+            ds.unionByRank(u, v);
+        }
+        
+    }
+    cout<<total_cost<<endl;
+    return 0;
+}
