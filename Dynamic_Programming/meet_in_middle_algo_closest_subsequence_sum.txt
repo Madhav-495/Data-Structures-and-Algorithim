@@ -1,0 +1,55 @@
+class Solution {
+    int solve_binary_search(vector<int>&rsum,int target){
+        int i=0,j=rsum.size()-1;
+        int ans=INT_MAX;
+        while(j>=i){
+            int mid=i+(j-i)/2;
+            if(rsum[mid]==target) return 0;
+            else if(rsum[mid]>target){
+                ans=min(ans,abs(rsum[mid]-target));
+                j=mid-1;
+            }
+            else{
+                ans=min(ans,abs(rsum[mid]-target));
+                i=mid+1;
+            }
+        }
+        return ans;
+    }
+public:
+    int minAbsDifference(vector<int>& nums, int goal) {
+        // Meet in the middle algorithim
+        vector<int>left;
+        vector<int>right;
+        int n=nums.size();
+        for(int i=0;i<nums.size();i++){
+            if(i<n/2) left.push_back(nums[i]);
+            else right.push_back(nums[i]);
+        }
+        vector<int>lsum;
+        vector<int>rsum;
+        int n1=left.size();
+        int n2=right.size();
+        for(int i=0;i<(1<<n1);i++){
+            int sum=0;
+            for(int j=0;j<n1;j++){
+                if(i&(1<<j)) sum+=left[j];
+            }
+            lsum.push_back(sum);
+        }
+        for(int i=0;i<(1<<n2);i++){
+            int sum=0;
+            for(int j=0;j<n2;j++){
+                if(i&(1<<j)) sum+=right[j];
+            }
+            rsum.push_back(sum);
+        }
+        sort(rsum.begin(),rsum.end());
+        int ans=INT_MAX;
+        for(int i=0;i<lsum.size();i++){
+            ans=min(ans,solve_binary_search(rsum,goal-lsum[i]));
+            // cout<<"YES"<<endl;
+        }
+        return ans;
+    }
+};

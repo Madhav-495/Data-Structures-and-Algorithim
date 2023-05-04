@@ -1,0 +1,32 @@
+class Solution {
+    bool check_sqrt(int n){
+        int a=sqrt(n);
+        return a*a==n;
+    }
+    void solve_dfs(vector<int>nums,int idx,int &ans){
+        
+        if(idx>=nums.size()){
+            ans++;
+        }
+        for(int j=idx;j<nums.size();j++){
+            if(j>idx&&nums[j]==nums[idx]) continue;
+            swap(nums[idx],nums[j]);
+            if(idx==0||check_sqrt(nums[idx]+nums[idx-1]))
+            solve_dfs(nums,idx+1,ans);
+            // swap(nums[j],nums[index]);
+           
+        }
+    }
+public:
+    int numSquarefulPerms(vector<int>& nums) {
+        int idx=0;
+        int ans=0;
+        sort(nums.begin(),nums.end());
+        for(auto x:nums){
+            cout<<x<<" ";
+        }
+        cout<<"\n";
+        solve_dfs(nums,0,ans);
+        return ans;
+    }
+};

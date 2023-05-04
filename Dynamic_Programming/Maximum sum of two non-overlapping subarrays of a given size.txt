@@ -1,0 +1,32 @@
+class Solution {
+    int solve(vector<int>&nums,int x,int y){
+        int n=nums.size();
+        int left[n];
+        int lsum=0;
+        for(int i=0;i<nums.size();i++){
+            lsum+=nums[i];
+            if(i>=x){
+                lsum-=nums[i-x];
+            }
+            left[i]=(i>=x)?max(left[i-1],lsum):lsum;
+        }
+        int right[n];
+        int rsum=0;
+        for(int i=n-1;i>=0;i--){
+            rsum+=nums[i];
+            if(i+y<n){
+                rsum-=nums[i+y];
+            }
+            right[i]=(i+y<n)?max(rsum,right[i+y]):rsum;
+        }
+        int ans=0;
+        for(int i=0;i<nums.size()-1;i++){
+            ans=max(ans,left[i]+right[i+1]);
+        }
+        return ans;
+    }
+public:
+    int maxSumTwoNoOverlap(vector<int>& nums, int firstLen, int secondLen) {
+        return max(solve(nums,firstLen,secondLen),solve(nums,secondLen,firstLen));
+    }
+};
