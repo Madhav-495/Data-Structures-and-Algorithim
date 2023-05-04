@@ -1,0 +1,30 @@
+ll solve_dp(ll mask,ll idx,vector<vector<ll>>&dp,vector<ll>adj[]){
+    if(idx==0){
+        return (mask==1)?1:0;
+    }
+    if(!(mask&(1<<idx))) return 0;
+    if(dp[mask][idx]!=-1) return dp[mask][idx];
+    ll ans=0;
+    for(auto x:adj[idx]){
+        ans+=solve_dp(mask^(1<<idx),x,dp,adj);
+        ans%=mod;
+    }
+    return dp[mask][idx]=ans;
+
+}
+void solve(){
+    ll n,m;
+    cin>>n>>m;
+    vector<ll>adj[n];
+
+    fi(0,m){
+        ll u,v;
+        cin>>u>>v;
+        --u;--v;
+        adj[v].pb(u);
+    }
+    vector<vector<ll>>dp((1<<n),vector<ll>(n,-1));
+
+    cout<<solve_dp((1<<n)-1,n-1,dp,adj)<<endl;
+
+}

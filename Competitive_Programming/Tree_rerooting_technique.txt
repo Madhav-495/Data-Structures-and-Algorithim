@@ -1,0 +1,56 @@
+void dfs(vector<ll>adj[],ll element,vector<ll>&dis,vector<ll>&vis,ll curr_dis){
+    vis[element]=1;
+    dis[element]=curr_dis;
+    for(auto x:adj[element]){
+        if(vis[x]==0){
+            dfs(adj,x,dis,vis,curr_dis+1);
+        }
+    }
+}
+void solve(){
+    ll t;
+    cin>>t;
+    while(t--){
+        ll n,k,c;
+        cin>>n>>k>>c;
+        vector<ll>adj[n+1];
+        fi(0,n-1){
+            ll u,v;
+            cin>>u>>v;
+            adj[u].pb(v);
+            adj[v].pb(u);
+        }
+        vector<ll>dis(n+1,0);
+        vector<ll>vis(n+1,0);
+        dfs(adj,1,dis,vis,0);
+        // cout<<"YES"<<endl;
+        ll node=0,max_dis=0;
+        for(int i=0;i<=n;i++){
+            if(max_dis<dis[i]){
+                max_dis=dis[i];
+                node=i;
+            }
+        }
+    
+        vector<ll>dis2(n+1,0);
+        for(int j=0;j<vis.size();j++) vis[j]=0;
+        max_dis=0;
+        dfs(adj,node,dis2,vis,0);
+        ll node2=-1;
+        for(int i=0;i<dis.size();i++){
+            if(dis[i]>max_dis){
+                max_dis=dis[i];
+                node2=i;
+            }
+        }
+        vector<ll>dis3(n+1,0);
+        for(int j=0;j<vis.size();j++) vis[j]=0;
+        dfs(adj,node2,dis3,vis,0);
+        ll ans=INT_MIN;
+        for(int i=1;i<dis2.size();i++){
+            ans=max(ans,k*(max(dis2[i],dis3[i]))-c*dis[i]);
+        }
+        cout<<ans<<endl;
+    }
+ 
+}

@@ -1,0 +1,14 @@
+void solve(){
+    int n;
+    cin>>n;
+    int arr[n];
+    fi(0,n){
+        cin>>arr[i];
+    }
+    int target;
+    cin>>target;
+    int l=lower_bound(arr,arr+n,target)-arr;
+    int r=upper_bound(arr,arr+n,target)-arr;
+    cout<<r-l<<endl;
+
+}
