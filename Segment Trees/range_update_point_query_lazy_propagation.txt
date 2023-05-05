@@ -1,0 +1,91 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class SegmentTree {
+public:
+    vector<int> Tree;
+    vector<int> nums;
+
+    SegmentTree(vector<int> arr) {
+        int n = arr.size();
+        this->nums = arr;
+        Tree.resize(4*n, 0);
+        buildTree(1, 0, n-1);
+    }
+
+    void buildTree(int node, int start, int end) {
+        if(start > end) return;
+        if(start == end) {
+            Tree[node] = nums[start];
+            return;
+        }
+        int left = 2*node;
+        int right = 2*node + 1;
+        int mid = start + (end-start)/2;
+        buildTree(left, start, mid);
+        buildTree(right, mid+1, end);
+        Tree[node]=0;
+    }
+
+    int query(int idx) {
+        return find_query ( 1 , idx , 0 , nums.size()-1 ) ;
+    }
+
+    int find_query(int node, int idx, int start, int end) {
+        propagate(node,start,end);
+        if(start==end){
+            return Tree[node];
+        }
+        int mid=start+(end-start)/2;
+        if(idx>=start&&idx<=mid){
+            return find_query(2*node,idx,start,mid);
+        }
+        else{
+            return find_query(2*node+1,idx,mid+1,end);
+        }
+    }
+
+    void propagate(int node,int start,int end){
+        if(start==end) return;
+        Tree[2*node]+=Tree[node];
+        Tree[2*node+1]+=Tree[node];
+        Tree[node]=0; // Fixed issue 1: propagate the value stored in Tree[node], not add Tree[node] to child nodes
+        return;
+    }
+
+    void update(int l,int r,int val){
+        range_update(1,l,r,val,0,nums.size()-1);
+    }
+
+    void range_update(int node,int l,int r,int val,int start,int end){
+        if(l>end||r<start) return;
+        if(start==end){
+            Tree[node]+=val; // Fixed issue 2: add val, not nums[start]
+        }
+        else if(l<=start&&r>=end){
+            Tree[node]+=val;
+        }
+        else{
+            int mid=start+(end-start)/2;
+            range_update(2*node,l,r,val,start,mid);
+            range_update(2*node+1,l,r,val,mid+1,end);
+        }
+    }
+};
+
+int main() {
+    // Doing Range Quries to find maximum of any interval
+    int n;
+    cin >> n;
+    vector<int> nums;
+    for(int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        nums.push_back(x);
+    }
+    SegmentTree s(nums);
+    cout<<s.query(3)<<endl;
+    s.update(0,3,4);
+    cout<<s.query(3)<<endl;
+    return 0;
+}
