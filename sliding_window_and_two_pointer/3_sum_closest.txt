@@ -1,0 +1,33 @@
+class Solution {
+    void solve_two_pointer(vector<int>&nums,int element,int &num,int &ans,int &diff,int index){
+        int i=index,j=nums.size()-1;
+        while(i<j){
+            int a=nums[i]+nums[j]+num;
+            
+            if(abs(element-a)<diff){
+                diff=abs(element-a);
+                ans=a;
+                // cout<<nums[i]<<" "<<nums[j]<<" "<<num<<" "<<ans<<endl;
+                
+            }
+            if(a>element) j--;
+            else {
+                i++;
+                
+            }
+            
+        }
+    }
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        int ans=0;
+        int diff=INT_MAX;
+        sort(nums.begin(),nums.end());
+        // for(int i=0;i<nums.size();i++) cout<<nums[i]<<" ";
+        // cout<<endl;
+        for(int i=0;i<nums.size()-2;i++){
+            solve_two_pointer(nums,target,nums[i],ans,diff,i+1);
+        }
+        return ans;
+    }
+};

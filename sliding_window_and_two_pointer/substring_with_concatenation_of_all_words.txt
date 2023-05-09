@@ -1,0 +1,37 @@
+class Solution {
+    vector<int>findSubstrings(string A,  vector<string> &B) {
+    unordered_map<string,int>mp;
+    for(auto x:B){
+        mp[x]++;
+    }
+    vector<int>ans;
+    int wordlength=B[0].length();
+    int totallength=B.size()*wordlength;
+    if(A.length()<totallength) return ans;
+    int wordcount=B.size();
+    for(int i=0;i<=A.length()-totallength;i++){
+        unordered_map<string,int>temp_mp(mp);
+        int j=i;
+        int temp_count=wordcount;
+        while(j<i+totallength){
+            string word=A.substr(j,wordlength);
+            
+            if(mp.find(word)==mp.end()||temp_mp[word]==0){
+                break;
+            }
+            else{
+                temp_mp[word]--;
+                temp_count--;
+            }
+            j+=wordlength;
+        }
+        if(temp_count==0) ans.push_back(i);
+    }
+    return ans;   
+}
+
+public:
+    vector<int> findSubstring(string s, vector<string>& words) {
+        return findSubstrings(s,words);
+    }
+};

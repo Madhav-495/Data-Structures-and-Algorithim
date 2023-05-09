@@ -1,0 +1,10 @@
+int binExpItr(ll a, ll b, ll M){
+    a %= M;    
+    int res = 1;
+    while (b) {
+        if (b & 1) res = (res * 1ll * a)% M;
+        a = (a * 1ll * a)% M;
+        b >>= 1;
+    }
+    return res;
+}

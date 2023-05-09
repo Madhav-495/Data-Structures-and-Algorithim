@@ -1,0 +1,19 @@
+class Solution {
+    int msb_pos(int l){
+        for(int i=31;i>=0;i--){
+            if(l&(1<<i)) return i;
+        }
+        return -1;
+    }
+    int solve(int l,int r){
+        if(l==0||r==0) return 0;
+        int x=msb_pos(l);
+        int y=msb_pos(r);
+        if(x!=y) return 0;
+        return pow(2,x)+solve(l-pow(2,x),r-pow(2,x));
+    }
+public:
+    int rangeBitwiseAnd(int left, int right) {
+        return solve(left,right);
+    }
+};
