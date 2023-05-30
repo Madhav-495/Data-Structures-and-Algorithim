@@ -1,0 +1,50 @@
+bool solve_dp(int index , vector<int>&nums , int target , vector<vector<int>>&dp ){
+    if( target == 0 ) return true;
+    if(index <0 ) return false;
+    if( dp[index][target]!=-1 ) return dp[index][target];
+    if( nums[index] <= target ){
+        return dp[index][target] = solve_dp( index-1 , nums , target-nums[index] , dp)||solve_dp(index-1,nums,target,dp);
+    }
+    else {
+        return dp[index][target] = solve_dp( index-1 , nums , target , dp);
+    }
+}
+bool solve_tab(vector<int>&nums ,int target){
+    int n=nums.size();
+    vector<vector<int>>dp(n+1,vector<int>(target+1,0));
+    dp[0][0]=1;
+    for(int i=0;i<=n;i++) dp[i][0]=1;
+    for(int i=1;i<=nums.size();i++){
+        for(int j=1;j<=target;j++){
+            if(nums[i-1]<=j){
+                // cout<<nums[i]<<" "<<j<<endl;
+                dp[i][j]= dp[i-1][j-nums[i-1]]||dp[i-1][j];
+            }
+            else dp[i][j]=dp[i-1][j];
+        }
+    }
+    return dp[n][target];
+}
+void solve(){
+     int n ;
+     cin >> n;
+     vector<int>nums;
+     for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        nums.push_back(x);
+     }
+     int target;
+     cin >> target;
+     vector<vector<int>>dp(n+1,vector<int>(target+1,-1));
+     if( solve_dp( n-1 , nums , target ,dp ) ){
+        cout<<"Subset sum possible "<<endl;
+     }
+     else cout<<"Subset Sum not possible"<<endl;
+     if( solve_tab(nums,target) ){
+        cout<<"Subset sum possible "<<endl;
+     }
+     else{
+        cout<<"Subset Sum not possible"<<endl;
+     }
+}

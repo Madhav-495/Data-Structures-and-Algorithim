@@ -1,0 +1,35 @@
+#include<bits/stdc++.h>
+using namespace std;
+int shortest_path_by_dijisktra(vector<pair<int,int>>adj[],int n,int src,int dst){
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+    vector<int>dis(n+1,INT_MAX);
+    pq.push({0,src});
+    dis[src]=0;
+    while(!pq.empty()){
+        pair<int,int>temp=pq.top();
+        pq.pop();
+        if(temp.second==dst) return temp.first;
+        for(auto x:adj[temp.second]){
+            if(dis[temp.second]+x.second<dis[x.first]){
+                dis[x.first]=dis[temp.second]+x.second;
+                pq.push({dis[x.first],x.first});
+            }
+        }
+    }
+    return -1;
+}
+int main(){
+    int n,m;
+    cin>>n>>m;
+    vector<pair<int,int>>adj[n+1];
+    // vector<int>indegree(n,0);
+    for(int i=0;i<m;i++){
+        int u,v,cost;
+        cin>>u>>v>>cost;
+        adj[u].push_back({v,cost});
+            
+    }
+    cout<<shortest_path_by_dijisktra(adj, n, 1, n)<<endl;
+    
+    return 0;
+}

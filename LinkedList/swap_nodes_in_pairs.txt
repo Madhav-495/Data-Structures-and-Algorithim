@@ -1,0 +1,19 @@
+class Solution {
+    ListNode* solve(ListNode*&head,ListNode*prev){
+        if(!head||!head->next) return head;
+        ListNode*temp=head->next->next;
+        ListNode*temp2=head->next;
+        head->next=temp;
+        temp2->next=head;
+        head=temp2;
+        prev=head->next;
+        prev->next=solve(temp,prev);
+        return head;
+    }
+public:
+    ListNode* swapPairs(ListNode* head) {
+        ListNode*prev=NULL;
+        return solve(head,prev);
+        return head;
+    }
+};

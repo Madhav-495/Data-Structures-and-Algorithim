@@ -1,0 +1,53 @@
+class Solution {
+    class DisjointSet{
+    private:
+    vector<int>parent;
+    vector<int>rank;
+    public:
+    DisjointSet(int n){
+        parent.resize(n);
+        rank.resize(n+1,0);
+        for(int i=0;i<parent.size();i++){
+            parent[i]=i;
+        }
+    }
+    int findUp(int node){
+        if(node==parent[node]) return node;
+        return parent[node]=findUp(parent[node]);
+    }
+    void unionByRank(int u,int v){
+        int up_u=findUp(u);
+        int up_v=findUp(v);
+        if(up_u==up_v) return;
+        if(rank[up_u]>rank[up_v]){
+            parent[up_v]=up_u;
+        }
+        else if(rank[up_u]<rank[up_v]){
+            parent[up_u]=up_v;
+        }
+        else{
+            parent[up_v]=up_u;
+            rank[up_u]++;
+        }
+    }
+};
+public:
+    int makeConnected(int n, vector<vector<int>>& connections) {
+        DisjointSet ds(n);
+        int extra=0;
+        for(int i=0;i<connections.size();i++){
+            int u=connections[i][0];
+            int v=connections[i][1];
+            if(ds.findUp(u)!=ds.findUp(v)){
+                ds.unionByRank(u,v);
+            }
+            else extra++;
+        }
+        set<int>s;
+        for(int i=0;i<n;i++){
+            s.insert(ds.findUp(i));
+        }
+        if(s.size()>extra+1) return -1;
+        else return s.size()-1;
+    }
+};

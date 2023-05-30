@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    int n,m;
+    cin>>n>>m;
+    vector<pair<int,int>>adj[n];
+    vector<int>indegree(n,0);
+    for(int i=0;i<m;i++){
+        int u,v,cost;
+        cin>>u>>v>>cost;
+        adj[u].push_back({v,cost});
+        indegree[v]++;    
+    }
+    queue<int>q;
+    vector<int>toposort;
+    for(int i=0;i<indegree.size();i++){
+        if(indegree[i]==0) q.push(i);
+    }
+    while(!q.empty()){
+        int temp=q.front();
+        q.pop();
+        toposort.push_back(temp);
+        for(auto x:adj[temp]){
+            indegree[x.first]--;
+            if(indegree[x.first]==0) q.push(x.first);
+        }
+    }
+    vector<int>dis(n,1e9);
+    dis[0]=0;
+    for(int i=0;i<toposort.size();i++){
+        int node=toposort[i];
+        for(auto x:adj[node]){
+            int newnode=x.first;
+            int cost=x.second;
+            if(dis[node]+cost<dis[newnode]){
+                dis[newnode]=cost+dis[node];
+            }
+        }
+    }
+    for(int i=0;i<dis.size();i++){
+        cout<<dis[i]<<" ";
+    }
+    cout<<endl;
+    return 0;
+}
